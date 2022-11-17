@@ -7,9 +7,9 @@ function App() {
 const [teams, setTeams] = useState([]);
 const [games, setGames] = useState([]);
 const [criteria, setCriteria] = useState({
-  startDate: "2022-11-01",
-  endDate: "2022-11-10",
-  teamId: 1
+  startDate: null,
+  endDate: null,
+  teamId: null
 });
 
 // fetch all teams & set dropdown state
@@ -24,7 +24,7 @@ useEffect( () => {
   fetchData();
 }, []);
 
-// Handle change in startDateSelector & setStartDate
+// Handle change in startDateSelector & set StartDate
 
 const handleStartDateChange = (event) => {
   setCriteria({
@@ -32,7 +32,7 @@ const handleStartDateChange = (event) => {
     startDate: event.target.value,
 })};
 
-// Handle change in startDateSelector & setStartDate
+// Handle change in endDateSelector & set endDate
 
 const handleEndDateChange = (event) => {
   setCriteria({
@@ -48,7 +48,7 @@ const handleSelectedTeamChange = (event) => {
     teamId: event.target.value
   })};
 
-// fetch games and set games state ( TO RE ADD: )
+// fetch games, sort by date ascending and set games state
 
 const fetchGames = async () => {
   const url = `https://www.balldontlie.io/api/v1/games?start_date=${criteria.startDate}&end_date=${criteria.endDate}&team_ids[]=${criteria.teamId}`;
@@ -85,13 +85,13 @@ const fetchGames = async () => {
           <label htmlFor="endDateSelector"></label>
         </div>
 
-{/* Refetch data using State as parameters */}
+{/* (Re)fetch data using State as parameters */}
 
         <div>
-          <button onClick={fetchGames}>Fetch games</button>
+          <button onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>Fetch games</button>
         </div>
 
-{/* Display fetched games  */}
+{/* Display fetched games (Slice() to extract date from ugly date format) */}
 
         <div>
           {games.map(game =>
