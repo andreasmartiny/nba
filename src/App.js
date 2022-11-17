@@ -5,10 +5,12 @@ function App() {
 // State
 
 const [teams, setTeams] = useState([]);
-const [SelectedTeam, setSelectedTeam] = useState(1);
-const [startDate, setStartDate] = useState("2022-11-01");
-const [endDate, setEndDate] = useState("2022-11-10");
 const [games, setGames] = useState([]);
+const [criteria, setCriteria] = useState({
+  startDate: "2022-11-01",
+  endDate: "2022-11-10",
+  teamId: 1
+});
 
 // fetch all teams & set dropdown state
 
@@ -25,25 +27,31 @@ useEffect( () => {
 // Handle change in startDateSelector & setStartDate
 
 const handleStartDateChange = (event) => {
-  setStartDate(event.target.value);
-};
+  setCriteria({
+    ...criteria,
+    startDate: event.target.value,
+})};
 
 // Handle change in startDateSelector & setStartDate
 
 const handleEndDateChange = (event) => {
-  setEndDate(event.target.value);
-};
+  setCriteria({
+    ...criteria,
+    endDate: event.target.value
+  })};
 
 // Handle change in TeamSelector & setTeam
 
 const handleSelectedTeamChange = (event) => {
-  setSelectedTeam(event.target.value);
-};
+  setCriteria({
+    ...criteria,
+    teamId: event.target.value
+  })};
 
 // fetch games and set games state ( TO RE ADD: )
 
 const fetchGames = async () => {
-  const url = `https://www.balldontlie.io/api/v1/games?start_date=${startDate}&end_date=${endDate}&team_ids[]=${SelectedTeam}`;
+  const url = `https://www.balldontlie.io/api/v1/games?start_date=${criteria.startDate}&end_date=${criteria.endDate}&team_ids[]=${criteria.teamId}`;
   const res = await fetch (url);
   const data = await res.json();
   setGames(data.data.sort((a, b) => new Date(a.date) - new Date(b.date)));
