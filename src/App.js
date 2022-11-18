@@ -15,7 +15,7 @@ const [criteria, setCriteria] = useState({
 // fetch all teams & set dropdown state
 
 useEffect( () => {
-  async function fetchData() {
+  const fetchData = async () => {
   const res = await fetch(`https://www.balldontlie.io/api/v1/teams`);
   const data = await res.json();
   setTeams(data.data);
