@@ -61,13 +61,14 @@ const fetchGames = async () => {
 
   return (
     <div className='flex justify-center'> 
-      <div className='justify-center'>
+      <div className='border-2 rounded-md m-4 p-4'>
 
 {/* Select Team dropdown */}
 
-        <div>
-          <select name="teamSelector" id="teamSelector" onChange={handleSelectedTeamChange}>
-            {teams.map(team => <option value={team.id} key={team.id}>{team.city}</option>)}
+        <div className='justify-center flex m-4'>
+          <label className='mr-4' htmlFor="teamSelector">Team:</label>
+          <select className='border-2 rounded-md' name="teamSelector" id="teamSelector" onChange={handleSelectedTeamChange}>
+            {teams.map(team => <option value={team.id} key={team.id}>{team.full_name}</option>)}
           </select>
           <label htmlFor="teamSelector"></label>
         </div>
@@ -75,20 +76,20 @@ const fetchGames = async () => {
 {/* Select start Date picker */}
 
         <div>
-          <input type="date" id="startDateSelector" name="startDateSelector" onChange={handleStartDateChange}></input>
+          <input className='border-2 rounded-md' type="date" id="startDateSelector" name="startDateSelector" onChange={handleStartDateChange}></input>
           <label htmlFor="startDateSelector"></label>
-        <span className='p-6 m-6'>To</span>
+        <span className='m-4'>To</span>
 
 {/* Select end Date picker */}
        
-          <input type="date" id="endDateSelector" name="endDateSelector" onChange={handleEndDateChange}></input>
+          <input className='border-2 rounded-md' type="date" id="endDateSelector" name="endDateSelector" onChange={handleEndDateChange}></input>
           <label htmlFor="endDateSelector"></label>
         </div>
 
 {/* (Re)fetch data using State as parameters */}
 
-        <div>
-          <button onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>Fetch games</button>
+        <div className='flex justify-center m-4'>
+          <button className='border-2 rounded-md p-1' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>Fetch games</button>
         </div>
 
 {/* Display fetched games (Slice() to extract date from ugly date format) */}
@@ -99,7 +100,6 @@ const fetchGames = async () => {
               <div className='justify-center flex'>{game.date.slice(0, 10)} @ {game.status}</div>
               <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
               <div className='flex justify-center'>{game.home_team_score} - {game.visitor_team_score}</div>
-              
             </div>)}
         </div>
 
