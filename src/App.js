@@ -7,9 +7,9 @@ function App() {
 const [teams, setTeams] = useState([]);
 const [games, setGames] = useState([]);
 const [criteria, setCriteria] = useState({
-  startDate: null,
-  endDate: null,
-  teamId: null
+  startDate: "2022-11-19",
+  endDate: "2022-11-29",
+  teamId: 1
 });
 
 // fetch all teams & set dropdown state
@@ -19,7 +19,6 @@ useEffect( () => {
   const res = await fetch(`https://www.balldontlie.io/api/v1/teams`);
   const data = await res.json();
   setTeams(data.data);
-  console.log(data.data);
   }
   fetchData();
 }, []);
@@ -55,17 +54,16 @@ const fetchGames = async () => {
   const res = await fetch (url);
   const data = await res.json();
   setGames(data.data.sort((a, b) => new Date(a.date) - new Date(b.date)));
-  console.log(url);
-  console.log(data.data);
   };
 
   return (
-    <div className='flex justify-center'> 
-      <div className='border-2 rounded-md m-4 p-4'>
+  <div className='flex justify-center'>
+  
+    <div className='w-1/2'> 
 
-{/* Select Team dropdown */}
+      <div className=' border-2 rounded-md m-4 p-4'>
 
-        <div className='justify-center flex m-4'>
+        <div className='m-4 border-2 flex justify-center'>
           <label className='mr-4' htmlFor="teamSelector">Team:</label>
           <select className='border-2 rounded-md' name="teamSelector" id="teamSelector" onChange={handleSelectedTeamChange}>
             {teams.map(team => <option value={team.id} key={team.id}>{team.full_name}</option>)}
@@ -73,40 +71,31 @@ const fetchGames = async () => {
           <label htmlFor="teamSelector"></label>
         </div>
 
-{/* Select start Date picker */}
-
-        <div>
+        <div className='m-4 border-2 flex justify-center'>
           <input className='border-2 rounded-md' type="date" id="startDateSelector" name="startDateSelector" onChange={handleStartDateChange}></input>
-          <label htmlFor="startDateSelector"></label>
         <span className='m-4'>To</span>
-
-{/* Select end Date picker */}
-       
           <input className='border-2 rounded-md' type="date" id="endDateSelector" name="endDateSelector" onChange={handleEndDateChange}></input>
-          <label htmlFor="endDateSelector"></label>
         </div>
 
-{/* (Re)fetch data using State as parameters */}
-
-        <div className='flex justify-center m-4'>
+        <div className='m-4 flex justify-center'>
           <button className='border-2 rounded-md p-1' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>Fetch games</button>
         </div>
-
-{/* Display fetched games (Slice() to extract date from ugly date format) */}
-
-        <div>
-          {games.map(game =>
-            <div className='border-2 rounded-md m-6 align-middle justify-center flex flex-col' key={game.id}>
-              <div className='justify-center flex'>{game.date.slice(0, 10)} @ {game.status}</div>
-              <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
-              <div className='flex justify-center'>{game.home_team_score} - {game.visitor_team_score}</div>
-            </div>)}
-        </div>
-
-{/* END */}
+    
 
       </div>
+
+      <div className=''>{games.map(game =>
+        <div className='bg-white border-2 rounded-md m-4' key={game.id}>
+          <div className='flex justify-center'>{game.date.slice(0, 10)} @ {game.status}</div>
+          <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
+          <div className='flex justify-center'>{game.time === "" ? "" : game.home_team_score + " - " + game.visitor_team_score}</div>
+        </div>)}
+
+      </div>
+
     </div>
+
+  </div>
   );
 }
 
