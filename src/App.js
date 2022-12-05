@@ -63,6 +63,16 @@ function App() {
     setGames([]);
   }
 
+  const handleSaveButton = (gameId) => {
+    const game = games.find(element => element.id = gameId);
+    const a = document.createElement('a');
+    a.href = `data:text/plain,${game.id}`;
+    a.download = `${game.id} on ${game.date}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    
+  }
+
   return (
     <div className=' justify-center m-0'>
 
@@ -86,18 +96,21 @@ function App() {
         </div>
 
         <div className='m-4 flex justify-center'>
-          <button class='hover:bg-secondary rounded-md p-1 mx-1 border-secondary bg-gray-300 disabled:bg-gray-300 transition ease-in-out' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>{!criteria.endDate || !criteria.startDate || !criteria.teamId ? "Fill in search criteria!" : "Search"}</button>
-          { games.length !== 0 ? <button class='bg-gray-300 rounded-md p-1 mx-1 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={handleResetButtonClick}>Reset</button> : null }
+          <button class='hover:bg-secondary rounded-md p-2 mx-2 border-secondary bg-gray-300 disabled:bg-gray-300 transition ease-in-out' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>{!criteria.endDate || !criteria.startDate || !criteria.teamId ? "Fill in search criteria!" : "Search"}</button>
+          { games.length !== 0 ? <button class='bg-gray-300 rounded-md p-2 mx-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={handleResetButtonClick}>Reset</button> : null }
         </div>
 
 
       </div>
 
       <div className=''>{games.map(game =>
-        <div className=' border-2 rounded-md m-4' key={game.id}>
+        <div className=' border-2 rounded-md m-4 flex flex-col align-middle' key={game.id}>
           <div className='flex justify-center'>{game.date.slice(0, 10)} @ {game.status}</div>
           <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
           <div className='flex justify-center'>{game.time === "" ? "" : game.home_team_score + " - " + game.visitor_team_score}</div>
+          <div class='flex justify-center'>
+            <button class='bg-gray-300 rounded-md p-2 m-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={() => handleSaveButton(game.id)}>Add to calendar</button>
+          </div>
         </div>)}
 
       </div>
