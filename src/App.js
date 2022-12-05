@@ -96,8 +96,8 @@ function App() {
         </div>
 
         <div className='m-4 flex justify-center'>
-          <button class='hover:bg-secondary rounded-md p-2 mx-2 border-secondary bg-gray-300 disabled:bg-gray-300 transition ease-in-out' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>{!criteria.endDate || !criteria.startDate || !criteria.teamId ? "Fill in search criteria!" : "Search"}</button>
-          { games.length !== 0 ? <button class='bg-gray-300 rounded-md p-2 mx-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={handleResetButtonClick}>Reset</button> : null }
+          <button className='hover:bg-secondary rounded-md p-2 mx-2 border-secondary bg-gray-300 disabled:bg-gray-300 transition ease-in-out' onClick={fetchGames} disabled={!criteria.endDate || !criteria.startDate || !criteria.teamId}>{!criteria.endDate || !criteria.startDate || !criteria.teamId ? "Fill in search criteria!" : "Search"}</button>
+          { games.length !== 0 ? <button className='bg-gray-300 rounded-md p-2 mx-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={handleResetButtonClick}>Reset</button> : null }
         </div>
 
 
@@ -108,8 +108,8 @@ function App() {
           <div className='flex justify-center'>{game.date.slice(0, 10)} @ {game.status}</div>
           <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
           <div className='flex justify-center'>{game.time === "" ? "" : game.home_team_score + " - " + game.visitor_team_score}</div>
-          <div class='flex justify-center'>
-            <button class='bg-gray-300 rounded-md p-2 m-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={() => handleSaveButton(game.id)}>Add to calendar</button>
+          <div className='flex justify-center'>
+            <button className='bg-gray-300 rounded-md p-2 m-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={() => handleSaveButton(game.id)}>Add to calendar</button>
           </div>
         </div>)}
 
