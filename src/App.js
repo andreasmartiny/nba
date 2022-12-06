@@ -11,6 +11,7 @@ function App() {
     endDate: "2022-11-29",
     teamId: null
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   // fetch all teams & set dropdown state
 
@@ -53,15 +54,21 @@ function App() {
   // fetch games, sort by date ascending and set games state
 
   const fetchGames = async () => {
+    setIsLoading(true);
     const url = `https://www.balldontlie.io/api/v1/games?start_date=${criteria.startDate}&end_date=${criteria.endDate}&team_ids[]=${criteria.teamId}`;
     const res = await fetch(url);
     const data = await res.json();
     setGames(data.data.sort((a, b) => new Date(a.date) - new Date(b.date)));
+    setIsLoading(false);
   };
+
+  // Handle reset state button
 
   const handleResetButtonClick = () => {
     setGames([]);
   }
+
+  // Handle Save button click
 
   const handleSaveButton = (gameId) => {
     const game = games.find(element => element.id = gameId);
@@ -75,8 +82,6 @@ function App() {
 
   return (
     <div className=' justify-center m-0'>
-
-      <div className=''>
 
       <div className='border-2 rounded-md m-4 p-4'>
 
@@ -103,8 +108,8 @@ function App() {
 
       </div>
 
-      <div className=''>{games.map(game =>
-        <div className=' border-2 rounded-md m-4 flex flex-col align-middle' key={game.id}>
+      <div className=''>{isLoading ? "Loading..." : games.map(game =>
+        <div className=' border-2 rounded-md m-4 flex flex-col align-middle hover:bg-slate-50 transition ease-in' key={game.id}>
           <div className='flex justify-center'>{game.date.slice(0, 10)} @ {game.status}</div>
           <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
           <div className='flex justify-center'>{game.time === "" ? "" : game.home_team_score + " - " + game.visitor_team_score}</div>
@@ -112,8 +117,6 @@ function App() {
             <button className='bg-gray-300 rounded-md p-2 m-2 hover:bg-secondary hover:shadow-sm transition ease-in-out' onClick={() => handleSaveButton(game.id)}>Add to calendar</button>
           </div>
         </div>)}
-
-      </div>
 
       </div>
 
