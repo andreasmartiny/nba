@@ -108,7 +108,8 @@ function App() {
 
       </div>
 
-      <div className=''>{isLoading ? "Loading..." : games.map(game =>
+      <div>{isLoading ?
+      <div className='flex justify-center'>Loading...</div> : games.map(game =>
         <div className=' border-2 rounded-md m-4 flex flex-col align-middle hover:bg-slate-50 transition ease-in' key={game.id}>
           <div className='flex justify-center'>{game.date.slice(0, 10)} @ {game.status}</div>
           <div className='flex justify-center'>{game.home_team.abbreviation} - {game.visitor_team.abbreviation}</div>
